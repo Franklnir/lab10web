@@ -261,6 +261,76 @@
         ?>
 
 ### langkah 4 
+# dengan cara menambah kan file header.php dan footer.php lalu masukkan include('header.php'); dan <?php include('footer.php'); ?> di form_input.php nya
+                        <?php
+                        // Menghubungkan dengan file database.php
+                        include "database.php";
+                        include('header.php');
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $nim = $_POST['txtnim'];
+                            $nama = $_POST['txtnama'];
+                            $alamat = $_POST['txtalamat'];
+                            $db = new Database();
+                            $data = [
+                                'nim' => $nim,
+                                'nama' => $nama,
+                                'alamat' => $alamat
+                            ];
+                            if ($db->insert('mahasiswa', $data)) {
+                                echo "Data berhasil disimpan!";
+                            } else {
+                                echo "Gagal menyimpan data.";
+                            }
+                        } else {
+                            echo "<html><head><title>Mahasiswa</title></head><body>";
+                        
+                            class Form
+                            {
+                                private $fields = [];
+                                private $action;
+                                private $submit = "Submit Form";
+                                private $jumField = 0;
+                        
+                                public function __construct($action, $submit)
+                                {
+                                    $this->action = $action;
+                                    $this->submit = $submit;
+                                }
+                        
+                                public function displayForm()
+                                {
+                                    echo "<form action='" . $this->action . "' method='POST'>";
+                                    echo '<table width="100%" border="0">';
+                                    for ($j = 0; $j < count($this->fields); $j++) {
+                                        echo "<tr><td align='right'>" . $this->fields[$j]['label'] . "</td>";
+                                        echo "<td><input type='text' name='" . $this->fields[$j]['name'] . "'></td></tr>";
+                                    }
+                                    echo "<tr><td colspan='2'>";
+                                    echo "<input type='submit' value='" . $this->submit . "'></td></tr>";
+                                    echo "</table>";
+                                    echo "</form>";
+                                }
+                                public function addField($name, $label)
+                                {
+                                    $this->fields[$this->jumField]['name'] = $name;
+                                    $this->fields[$this->jumField]['label'] = $label;
+                                    $this->jumField++;
+                                }
+                            }
+                            $form = new Form("", "Submit Data");
+                            $form->addField("txtnim", "Nim");
+                            $form->addField("txtnama", "Nama");
+                            $form->addField("txtalamat", "Alamat");
+                        
+                            echo "<h3>Silahkan isi form berikut ini :</h3>";
+                            $form->displayForm();
+                            echo "</body></html>";
+                        }
+                        ?>
+                        <?php include('footer.php'); ?>
+![image](https://github.com/user-attachments/assets/189d76e4-e49a-44a3-a900-754ea2428172)
+![image](https://github.com/user-attachments/assets/6fcc480a-d0c0-419f-8e49-f7b66d9d091a)
+
 
         
 
